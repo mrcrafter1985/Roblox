@@ -1,1 +1,45 @@
-local v0=game:GetService("ReplicatedStorage");local v1=game:GetService("Players");local v2={"TRM_Diamond","megalol933","yaromir2010000"};local function v3(v5,v6)if table.find(v2,v5.Name,523 -(410 + 112) ,true) then local v12={[1]="Order",[2 + 0 ]=""};if (string.lower(v6)=="meat") then v12[4 -2 ]="Meat";elseif (string.lower(v6)=="veggies") then v12[1560 -(626 + 932) ]="Veggies";elseif (string.lower(v6)=="bread") then v12[295 -(105 + 188) ]="Bread";elseif (string.lower(v6)=="cups") then v12[2]="Cups";elseif (string.lower(v6)=="trays") then v12[4 -2 ]="Trays";elseif (string.lower(v6)=="fries") then v12[853 -(427 + 424) ]="Fries";end if (v12[2]~="") then v0.Remotes.Tell:FireServer(unpack(v12));end end end local function v4(v7)v7.Chatted:Connect(function(v11)v3(v7,v11);end);end v1.PlayerAdded:Connect(function(v8)v4(v8);end);for v9,v10 in ipairs(v1:GetPlayers()) do v4(v10);end
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local allowedPlayers = {"TRM_Diamond", "megalol933", "yaromir2010000"}
+
+local function onChatted(player, message)
+    if table.find(allowedPlayers, player.Name, 1, true) then
+        local args = {
+            [1] = "Order",
+            [2] = ""
+        }
+
+        if string.lower(message) == "meat" then
+	    args[2] = "Meat"
+	elseif string.lower(message) == "veggies" then
+            args[2] = "Veggies"
+        elseif string.lower(message) == "bread" then
+            args[2] = "Bread"
+        elseif string.lower(message) == "cups" then
+            args[2] = "Cups"
+        elseif string.lower(message) == "trays" then
+            args[2] = "Trays"
+        elseif string.lower(message) == "fries" then
+            args[2] = "Fries"
+        end
+
+        if args[2] ~= "" then
+            ReplicatedStorage.Remotes.Tell:FireServer(unpack(args))
+        end
+    end
+end
+
+local function bindChatted(player)
+    player.Chatted:Connect(function(message)
+        onChatted(player, message)
+    end)
+end
+
+Players.PlayerAdded:Connect(function(player)
+    bindChatted(player)
+end)
+
+for _, player in ipairs(Players:GetPlayers()) do
+    bindChatted(player)
+end
